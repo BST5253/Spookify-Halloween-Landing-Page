@@ -11,6 +11,9 @@ if (typeof window !== "undefined") {
 
 const ScrollAnimations = () => {
 	useEffect(() => {
+		// Set initial visibility for feature cards to ensure they're visible
+		gsap.set(".feature-card", { opacity: 1, y: 0, scale: 1, rotationX: 0 });
+
 		// Parallax effect for hero section (reduced movement to prevent overflow)
 		gsap.to("#hero", {
 			scrollTrigger: {
@@ -24,21 +27,30 @@ const ScrollAnimations = () => {
 		});
 
 		// Features reveal with stagger
-		gsap.from(".feature-card", {
-			scrollTrigger: {
-				trigger: "#features",
-				start: "top 80%",
-				toggleActions: "play none none none",
-				once: true, // Only animate once
+		gsap.fromTo(
+			".feature-card",
+			{
+				y: 100,
+				opacity: 0,
+				scale: 0.8,
+				rotationX: 45,
 			},
-			y: 100,
-			opacity: 0,
-			scale: 0.8,
-			rotationX: 45,
-			stagger: 0.2,
-			duration: 1,
-			ease: "power3.out",
-		});
+			{
+				scrollTrigger: {
+					trigger: "#features",
+					start: "top 80%",
+					toggleActions: "play none none none",
+					once: true,
+				},
+				y: 0,
+				opacity: 1,
+				scale: 1,
+				rotationX: 0,
+				stagger: 0.2,
+				duration: 1,
+				ease: "power3.out",
+			}
+		);
 
 		// CTA section scale and glow effect
 		gsap.from("#cta", {
